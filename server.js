@@ -3,9 +3,8 @@ import express from "express";
 const app = express();
 
 app.get("/api/music", (req, res) => {
-  const query = req.query.q || "";
+  const query = (req.query.q || "").toLowerCase();
 
-  // Danh sách nhạc mẫu (có thể thêm sau)
   const musicList = {
     "nhac thieu nhi": {
       title: "Nhạc Thiếu Nhi Vui Nhộn",
@@ -21,10 +20,17 @@ app.get("/api/music", (req, res) => {
     }
   };
 
-  let result = musicList[query.toLowerCase()] || musicList["nhac thieu nhi"];
+  const result = musicList[query] || musicList["nhac thieu nhi"];
 
   res.json({
     status: 200,
     title: result.title,
     artist: result.artist,
-    stream_url_
+    stream_url: result.stream_url,
+    thumbnail: result.thumbnail
+  });
+});
+
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
+});
